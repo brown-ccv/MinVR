@@ -12,6 +12,7 @@
 #include <api/VRButtonEvent.h>
 #include <api/VRCursorEvent.h>
 #include <api/VRAnalogEvent.h>
+#include <api/VRWindowResizeEvent.h>
 
 namespace MinVR {
 
@@ -41,7 +42,10 @@ static void glfw_mouse_button_callback(GLFWwindow* window, int button, int actio
   ((VRGLFWInputDevice*)(glfwGetWindowUserPointer(window)))->mouseButtonCallback(window, button, action, mods);
 }
 
-
+static void window_close_callback(GLFWwindow* window)
+{
+  ((VRGLFWInputDevice*)(glfwGetWindowUserPointer(window)))->closeWindowCallback(window);
+}
 VRGLFWInputDevice::VRGLFWInputDevice() {
 }
 
@@ -66,6 +70,7 @@ void VRGLFWInputDevice::addWindow(GLFWwindow* window) {
     glfwSetMouseButtonCallback(window, glfw_mouse_button_callback);
     glfwSetCursorPosCallback(window, glfw_cursor_position_callback);
 	glfwSetScrollCallback(window, glfw_mouse_scroll_callback);
+  glfwSetWindowCloseCallback(window, window_close_callback);
     _windows.push_back(window);
 }
 
@@ -79,6 +84,9 @@ void VRGLFWInputDevice::keyCallback(GLFWwindow* window, int key, int scancode, i
 
 void VRGLFWInputDevice::sizeCallback(GLFWwindow* window, int width, int height) {
     // TODO: create an event reporting to MinVR that the size has changed
+   std::vector<float> newSize = { float(width) , float(height) };
+   VRDataIndex event = VRWindowResizeEvent::createValidDataIndex("WindowSize", newSize);
+  _events.push_back(event);
 }
 
 
@@ -133,6 +141,12 @@ void VRGLFWInputDevice::mouseScrollCallback(GLFWwindow* window, float xoffset, f
 	VRDataIndex event = VRAnalogEvent::createValidDataIndex("MouseWheel_Spin", yoffset);
 	event.addData("xoffset", xoffset);
 	_events.push_back(event);
+}
+
+void VRGLFWInputDevice::closeWindowCallback(GLFWwindow* window)
+{
+  VRDataIndex event = VRWindowCloseEvent::createValidDataIndex();
+  _events.push_back(event);
 }
 
 std::string getGlfwKeyName(int key) {

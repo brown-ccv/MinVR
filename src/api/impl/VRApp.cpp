@@ -34,6 +34,11 @@ class VRAppInternal : public VREventHandler, public VRRenderHandler {
 public:
 	VRAppInternal(int argc, char** argv, VRApp *app) : _app(app) {
 		_main = new VRMain();
+    std::string executable_Full_Path = argv[0];
+    std::size_t found = executable_Full_Path.find_last_of("/\\");
+    std::cout << " path: " << executable_Full_Path.substr(0, found+1) << '\n';
+
+    _main->_configPath.addPathEntry(executable_Full_Path.substr(0, found + 1));
 
         _main->addEventHandler(this);
         _main->addRenderHandler(this);

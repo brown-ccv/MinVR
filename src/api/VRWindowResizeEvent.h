@@ -67,6 +67,28 @@ private:
 };
 
 
+class VRWindowCloseEvent {
+
+public:
+  VRWindowCloseEvent(const VRDataIndex& internalIndex);
+  virtual ~VRWindowCloseEvent();
+
+
+  // A string describing the name of this cursor
+  std::string getName() const;
+
+  const VRDataIndex& index() const;
+
+
+
+  static VRDataIndex createValidDataIndex();
+
+
+private:
+
+  const VRDataIndex& _index;
+};
+
 } // end namespace
 
 

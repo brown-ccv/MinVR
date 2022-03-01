@@ -50,6 +50,8 @@ public:
 
 	PLUGIN_API void swapBuffers(int windowID);
 
+	PLUGIN_API void getWindowSize(int windowID, int& width, int& height);
+
 	PLUGIN_API void getFramebufferSize(int windowID, int& width, int& height);
 
 	PLUGIN_API VRglproc getProcAddress(const char *name);

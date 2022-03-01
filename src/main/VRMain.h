@@ -606,9 +606,11 @@ public:
     /// This is for MinVR internal use, public only for testing.
     bool _startLocalProcess(const std::string &name);
 
+    VRSearchConfig _configPath;
+    
  private:
 
-    VRSearchConfig _configPath;
+    
 
     bool _initialized;
 

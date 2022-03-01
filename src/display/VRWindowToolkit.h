@@ -82,6 +82,10 @@ public:
 		std::cerr << "makeWindowCurrent() not enabled in this VRWindowToolkit." << std::endl;
 	}
 
+    virtual void getWindowSize(int windowID, int& width, int& height){
+		std::cerr << "getWindowSize() not enabled in this VRWindowToolkit." << std::endl;
+	}
+
 	virtual void swapBuffers(int windowID) {
 		std::cerr << "swapBuffers() not enabled in this VRWindowToolkit." << std::endl;
 	}

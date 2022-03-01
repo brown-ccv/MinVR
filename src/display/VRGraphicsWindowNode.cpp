@@ -14,6 +14,7 @@ VRGraphicsWindowNode::VRGraphicsWindowNode(const std::string &name, VRGraphicsTo
   VRDisplayNode(name), _gfxToolkit(gfxToolkit), _winToolkit(winToolkit), _settings(settings)
 {
   _windowID = _winToolkit->createWindow(_settings);
+  _winToolkit->getWindowSize(_windowID,_windowSizeWidth,_windowSizeHeight);
   _winToolkit->getFramebufferSize(_windowID, _framebufferWidth, _framebufferHeight);
   _valuesAdded.push_back("WindowX");
   _valuesAdded.push_back("WindowY");
@@ -37,8 +38,8 @@ void VRGraphicsWindowNode::render(VRDataIndex *renderState, VRRenderHandler *ren
   renderState->addData("IsGraphics", 1);
   renderState->addData("WindowX", _settings.xpos);
   renderState->addData("WindowY", _settings.ypos);
-  renderState->addData("WindowWidth", _settings.width);
-  renderState->addData("WindowHeight", _settings.height);
+  renderState->addData("WindowWidth", _windowSizeWidth);
+  renderState->addData("WindowHeight", _windowSizeHeight);
   renderState->addData("FramebufferWidth", _framebufferWidth);
   renderState->addData("FramebufferHeight", _framebufferHeight);
   renderState->addData("SharedContextId", _settings.sharedContextGroupID);

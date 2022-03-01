@@ -39,6 +39,7 @@ using namespace MinVR;
 class MyVRApp : public VRApp {
 public:
   MyVRApp(int argc, char** argv) : VRApp(argc, argv) {
+    
   }
 
 
@@ -74,6 +75,18 @@ public:
 
   void onRenderConsole(const VRConsoleState& state) {}
 
+  void onGenericEvent(const VRDataIndex& index) 
+  {
+    if (index.getName() == "WindowClose") {
+      shutdown();
+    }
+
+    if (index.getName() == "WindowSize") {
+      const std::vector<float>* v = index.getValue("WindowSize");
+      const float* f = &(v->front());
+      glViewport(0, 0, GLint(f[0]), GLint(f[1]));
+    }
+  }
 
   void onRenderGraphicsContext(const VRGraphicsState& state) {
     // If this is the inital call, initialize context variables
@@ -203,6 +216,16 @@ public:
       glAttachShader(shaderProgram, vshader);
       glAttachShader(shaderProgram, fshader);
       linkShaderProgram(shaderProgram);
+      
+      int w = state.index().getValue("WindowWidth");
+      int h = state.index().getValue("WindowHeight");
+      std::cout << "WindowWidth " << w << std::endl;
+      std::cout << "WindowHeight " << h << std::endl;
+
+      GLint last_viewport[4];
+      glGetIntegerv(GL_VIEWPORT, last_viewport);
+      std::cout << "viewportWidth " << last_viewport[2] << std::endl;
+      std::cout << "viewportHeight " << last_viewport[3] << std::endl;
     }
 
     // Destroy context items if the program is no longer running
@@ -238,6 +261,21 @@ public:
     glUniformMatrix4fv(loc, 1, GL_FALSE, state.getViewMatrix());
     loc = glGetUniformLocation(shaderProgram, "ModelMatrix");
     glUniformMatrix4fv(loc, 1, GL_FALSE, model);
+
+
+    int window_w  =state.index().getValue("WindowWidth");
+		int window_h  =state.index().getValue("WindowHeight");
+		int framebuffer_w  =state.index().getValue("FramebufferWidth");
+		int framebuffer_h  =state.index().getValue("FramebufferHeight");
+    
+    if(!printDebug)
+    {
+
+      	 std::cout<< "TEST "  << window_w << " " << window_h << std::endl;
+		 std::cout << "TEST " << framebuffer_w << " " << framebuffer_h << std::endl;
+	 printDebug = !printDebug;
+    }
+	 
 
     // Draw cube
     glBindVertexArray(vao);
@@ -294,6 +332,7 @@ public:
 private:
   GLuint vbo, vao, vshader, fshader, shaderProgram;
   float model[16];
+  bool printDebug = false;
 };
 
 

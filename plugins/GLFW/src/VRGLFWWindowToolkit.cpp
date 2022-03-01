@@ -143,15 +143,36 @@ VRGLFWWindowToolkit::createWindow(VRWindowSettings settings) {
 
 	/* GLFW says: If you wish to set an initial window position, you should create a hidden window, set its position, then show it*/
 	glfwWindowHint(GLFW_VISIBLE, false);
+
+	std::cout << "settings.height " << settings.height << std::endl;
 	GLFWwindow* window = glfwCreateWindow(settings.width, settings.height, settings.caption.c_str(), NULL, sharedContext);
+	
 	if (!window) {
 		std::cout << "Error creating window." << std::endl;
 	}
+	
+
 	glfwSetWindowPos(window, settings.xpos, settings.ypos);
+	
+
+
 	if (settings.visible) {
 		glfwShowWindow(window);
 	}
 
+
+ std::cout << "window settings  " << settings.width << " " <<   settings.height << std::endl;
+
+  
+
+	int fb_w,fb_h;
+	  
+        glfwGetFramebufferSize(window, &fb_w, &fb_h);
+      
+           std::cout << "buffer size  " << fb_w << " " <<   fb_h << std::endl;
+     
+     std::cout << glfwGetVersionString () << std::endl;
+  
 
 	if (settings.sharedContextGroupID >= 0 || !foundSharedContextGroup) {
 		_sharedContextGroups[settings.sharedContextGroupID] = window;
@@ -161,6 +182,7 @@ VRGLFWWindowToolkit::createWindow(VRWindowSettings settings) {
 	glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
     glfwMakeContextCurrent(NULL);
+
 
 	_inputDev->addWindow(window);
 	if (_windows.size() == 0) {
@@ -192,6 +214,12 @@ VRGLFWWindowToolkit::makeWindowCurrent(int windowID) {
 void
 VRGLFWWindowToolkit::getFramebufferSize(int windowID, int& width, int& height) {
 	glfwGetFramebufferSize(_windows[windowID], &width, &height);
+}
+
+void
+VRGLFWWindowToolkit::getWindowSize(int windowID, int& width, int& height)
+{
+	 glfwGetWindowSize(_windows[windowID], &width, &height);
 }
 
 void 

@@ -63,4 +63,31 @@ VRDataIndex VRWindowResizeEvent::createValidDataIndex(const std::string &eventNa
 }
     
 
+VRWindowCloseEvent::VRWindowCloseEvent(const VRDataIndex& internalIndex):_index(internalIndex)
+{
+
+}
+
+VRWindowCloseEvent::~VRWindowCloseEvent()
+{
+
+}
+
+std::string VRWindowCloseEvent::getName() const
+{
+  return _index.getName();
+}
+
+const MinVR::VRDataIndex& VRWindowCloseEvent::index() const
+{
+  return _index;
+}
+
+MinVR::VRDataIndex VRWindowCloseEvent::createValidDataIndex()
+{
+  VRDataIndex di("WindowClose");
+  di.addData("EventType", "WindowClose");
+  return di;
+}
+
 } // end namespace

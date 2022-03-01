@@ -43,6 +43,8 @@ protected:
 	VRWindowSettings   _settings;
 	int _framebufferWidth;
 	int _framebufferHeight;
+	int _windowSizeWidth;
+	int _windowSizeHeight;
 };
 
 
