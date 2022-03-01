@@ -1,3 +1,5 @@
+This is a fork of the original [MinVR](https://github.com/MinVR/MinVR) repository. It was modified to support GLFW functionalities not implemented by the main repo.
+
 # MinVR
 
 MinVR is an Open Source Project developed and maintained collaboratively by the University of Minnesota, Macalester College, and Brown University.
