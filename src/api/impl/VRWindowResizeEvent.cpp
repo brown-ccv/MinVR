@@ -61,7 +61,52 @@ VRDataIndex VRWindowResizeEvent::createValidDataIndex(const std::string &eventNa
     di.addData("WindowSize", size);
     return di;
 }
-    
+
+
+
+VRBufferResizeEvent::VRBufferResizeEvent(const VRDataIndex& internalIndex) : _index(internalIndex) {
+
+}
+
+VRBufferResizeEvent::~VRBufferResizeEvent() {
+
+}
+
+const float* VRBufferResizeEvent::getBufferSize() const {
+  if (_index.exists("BufferSize")) {
+    const std::vector<float>* v = _index.getValue("BufferSize");
+    return &(v->front());
+  }
+  else {
+    VRERROR("VRWindowResizeEvent::getWindowSize() cannot determine a data field to return for event named " +
+      _index.getName() + ".", "Window's reSize events should have an entry in their data index called WindowSize.");
+    return NULL;
+  }
+}
+
+
+
+std::string VRBufferResizeEvent::getName() const {
+  return _index.getName();
+}
+
+
+
+const VRDataIndex& VRBufferResizeEvent::index() const {
+  return _index;
+}
+
+
+
+VRDataIndex VRBufferResizeEvent::createValidDataIndex(std::vector<float> size)
+{
+  VRDataIndex di("BufferSize");
+  di.addData("BufferSize", "BufferSize");
+  di.addData("BufferSize", size);
+  return di;
+}
+
+
 
 VRWindowCloseEvent::VRWindowCloseEvent(const VRDataIndex& internalIndex):_index(internalIndex)
 {

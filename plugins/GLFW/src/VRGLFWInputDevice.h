@@ -51,6 +51,7 @@ public:
   	PLUGIN_API void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	PLUGIN_API void mouseScrollCallback(GLFWwindow* window, float xoffset, float yoffset);
 	PLUGIN_API void closeWindowCallback(GLFWwindow* window);
+  PLUGIN_API void bufferSizeCallback(GLFWwindow* window, int width, int height);
 
 private:
 	std::vector<VRDataIndex> _events;

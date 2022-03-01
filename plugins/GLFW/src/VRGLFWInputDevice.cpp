@@ -42,10 +42,16 @@ static void glfw_mouse_button_callback(GLFWwindow* window, int button, int actio
   ((VRGLFWInputDevice*)(glfwGetWindowUserPointer(window)))->mouseButtonCallback(window, button, action, mods);
 }
 
-static void window_close_callback(GLFWwindow* window)
+static void glfw_window_close_callback(GLFWwindow* window)
 {
   ((VRGLFWInputDevice*)(glfwGetWindowUserPointer(window)))->closeWindowCallback(window);
 }
+
+static void glfw_framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+  ((VRGLFWInputDevice*)(glfwGetWindowUserPointer(window)))->bufferSizeCallback(window,width,height);
+}
+
 VRGLFWInputDevice::VRGLFWInputDevice() {
 }
 
@@ -70,7 +76,8 @@ void VRGLFWInputDevice::addWindow(GLFWwindow* window) {
     glfwSetMouseButtonCallback(window, glfw_mouse_button_callback);
     glfwSetCursorPosCallback(window, glfw_cursor_position_callback);
 	glfwSetScrollCallback(window, glfw_mouse_scroll_callback);
-  glfwSetWindowCloseCallback(window, window_close_callback);
+  glfwSetWindowCloseCallback(window, glfw_window_close_callback);
+  glfwSetFramebufferSizeCallback(window, glfw_framebuffer_size_callback);
     _windows.push_back(window);
 }
 
@@ -146,6 +153,13 @@ void VRGLFWInputDevice::mouseScrollCallback(GLFWwindow* window, float xoffset, f
 void VRGLFWInputDevice::closeWindowCallback(GLFWwindow* window)
 {
   VRDataIndex event = VRWindowCloseEvent::createValidDataIndex();
+  _events.push_back(event);
+}
+
+void VRGLFWInputDevice::bufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+  std::vector<float> newSize = { float(width) , float(height) };
+  VRDataIndex event = VRWindowResizeEvent::createValidDataIndex("BufferSize", newSize);
   _events.push_back(event);
 }
 

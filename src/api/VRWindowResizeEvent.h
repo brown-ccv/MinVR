@@ -67,6 +67,43 @@ private:
 };
 
 
+class VRBufferResizeEvent  {
+public:
+  VRBufferResizeEvent(const VRDataIndex& internalIndex);
+  virtual ~VRBufferResizeEvent();
+
+
+  // A string describing the name of this cursor
+  std::string getName() const;
+
+
+  // returns the new window's size (w,h)
+  // 
+  const float* getBufferSize() const;
+
+
+  // Possible:  const float * getVel();
+
+
+
+
+
+/** For advanced use, provides access to the VRDataIndex used internally by
+    MinVR, which may contain some additional data fields beyond those
+    accessible via this API.
+ */
+  const VRDataIndex& index() const;
+
+
+
+  static VRDataIndex createValidDataIndex(std::vector<float> size);
+
+
+private:
+
+  const VRDataIndex& _index;
+};
+
 class VRWindowCloseEvent {
 
 public:

@@ -81,7 +81,7 @@ public:
       shutdown();
     }
 
-    if (index.getName() == "WindowSize") {
+    if (index.getName() == "BufferSize") {
       const std::vector<float>* v = index.getValue("WindowSize");
       const float* f = &(v->front());
       glViewport(0, 0, GLint(f[0]), GLint(f[1]));
@@ -333,6 +333,8 @@ private:
   GLuint vbo, vao, vshader, fshader, shaderProgram;
   float model[16];
   bool printDebug = false;
+
+  
 };
 
 
