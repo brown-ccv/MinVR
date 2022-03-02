@@ -33,7 +33,8 @@ VRGraphicsWindowNode::~VRGraphicsWindowNode() {
 void VRGraphicsWindowNode::render(VRDataIndex *renderState, VRRenderHandler *renderHandler) {
 
   renderState->pushState();
-
+  _winToolkit->getWindowSize(_windowID, _windowSizeWidth, _windowSizeHeight);
+  _winToolkit->getFramebufferSize(_windowID, _framebufferWidth, _framebufferHeight);
   // Is this the kind of state information we expect to pass from one node to the next?
   renderState->addData("IsGraphics", 1);
   renderState->addData("WindowX", _settings.xpos);
