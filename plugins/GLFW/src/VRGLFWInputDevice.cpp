@@ -90,10 +90,11 @@ void VRGLFWInputDevice::keyCallback(GLFWwindow* window, int key, int scancode, i
 }
 
 void VRGLFWInputDevice::sizeCallback(GLFWwindow* window, int width, int height) {
-    // TODO: create an event reporting to MinVR that the size has changed
-   std::vector<float> newSize = { float(width) , float(height) };
-   VRDataIndex event = VRWindowResizeEvent::createValidDataIndex("WindowSize", newSize);
-  _events.push_back(event);
+    std::vector<float> newSize;
+    newSize.push_back(float(width));
+    newSize.push_back(float(height));
+    VRDataIndex event = VRWindowResizeEvent::createValidDataIndex("WindowSize", newSize);
+    _events.push_back(event);
 }
 
 
@@ -158,9 +159,11 @@ void VRGLFWInputDevice::closeWindowCallback(GLFWwindow* window)
 
 void VRGLFWInputDevice::bufferSizeCallback(GLFWwindow* window, int width, int height)
 {
-  std::vector<float> newSize = { float(width) , float(height) };
-  VRDataIndex event = VRWindowResizeEvent::createValidDataIndex("BufferSize", newSize);
-  _events.push_back(event);
+    std::vector<float> newSize;
+    newSize.push_back(float(width));
+    newSize.push_back(float(height));
+    VRDataIndex event = VRWindowResizeEvent::createValidDataIndex("BufferSize", newSize);
+    _events.push_back(event);
 }
 
 std::string getGlfwKeyName(int key) {
